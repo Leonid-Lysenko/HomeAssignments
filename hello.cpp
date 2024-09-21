@@ -1,4 +1,5 @@
-/* Leonid Lysenko st128618@student.spbu.ru
+/* Leonid Lysenko
+   st128618@student.spbu.ru
    problem-1 project
 */
 
