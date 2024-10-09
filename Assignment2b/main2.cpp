@@ -11,7 +11,8 @@ int main()
     std::string stroka;
     std::getline(std::cin, stroka);
     double *n = new double[stroka.length()];
-    for (int i = 0; i < stroka.length(); i++)
+    double *k = n;
+    for (int i {0}; i < stroka.length(); i++)
     {
         /*
         We prescribe conditions for operation signs (+, -, *, /).
@@ -19,23 +20,23 @@ int main()
         switch (stroka[i])
         {
             case '+':
-                *(n-2) = *(n-2) + *(n-1);
-                n--;
+                *(k-2) = *(k-2) + *(k-1);
+                k--;
                 i++;
                 break;
             case '-':
-                *(n-2) = *(n-2) - *(n-1);
-                n--;
+                *(k-2) = *(k-2) - *(k-1);
+                k--;
                 i++;
                 break;
             case '*':
-                *(n-2) = *(n-2) * *(n-1);
-                n--;
+                *(k-2) = *(k-2) * *(k-1);
+                k--;
                 i++;
                 break;
             case '/':
-                *(n-2) = *(n-2) / *(n-1);
-                n--;
+                *(k-2) = *(k-2) / *(k-1);
+                k--;
                 i++;
                 break;
             default:
@@ -45,8 +46,8 @@ int main()
                     chislo += stroka[i];
                     i++;
                 }
-                *n = stod(chislo);
-                n++;
+                *k = stod(chislo);
+                k++;
         }
     }
     /*
@@ -54,7 +55,7 @@ int main()
     and then we display the result of the program.
     After this, we clear the memory.
     */
-    n--;
-    std::cout << *(n) << std::endl;
+    k--;
+    std::cout << *k << std::endl;
     delete[] n;
 }
