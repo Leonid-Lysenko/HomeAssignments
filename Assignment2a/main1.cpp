@@ -19,10 +19,13 @@ int main()
     We read the file to work with it.
     */
     int Fsize = 0;
-    while (infile >> buffer[Fsize])
+    char ch;
+    while (infile.get(ch))
     {
+        buffer[Fsize] = ch;
         Fsize++;
     }
+    Fsize--;
     infile.close();
     /*
     We reverse the line elements in the file.
