@@ -2,8 +2,6 @@
    Lab1
 */
 
-
-
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -15,7 +13,9 @@
 -> Она содержит поля, которые описывают характеристики BMP, такие как размер файла, ширина и высота изображения, количество бит на пиксель и другие.
 -> #pragma pack(1) указывает компилятору упаковывать данные без выравнивания.
 */
-#pragma pack(1) 
+
+#pragma pack(1)
+
 struct bmpdata
 {
     uint16_t type = 0x4D42;  // идентификатор BMP-файла
@@ -38,6 +38,8 @@ struct bmpdata
 
 #pragma pack(push, f)
 #pragma pack(pop)  
+
+
 
 /*
 -> Функция ниже применяет фильтр к отдельному пикселю изображения.
@@ -71,19 +73,22 @@ void filterToPixel(const std::vector<unsigned char>& pix, int width, int height,
 -> Извлекается ширина и высота изображения, а также размер строки с учетом выравнивания.
 -> Затем выделяется память для хранения пикселей и считываются данные пикселей из файла.
 */
-void bmpread(const std::string& filename, std::vector<unsigned char>& pix, bmpdata& header)
+void bmpread(const std::string& fileName, std::vector<unsigned char>& pix, bmpdata& header)
 {
-    std::ifstream bmpfile(filename, std::ios::binary);
-    if (not(bmpfile)) {std::cerr << "Упс... Входной файл не получилось открыть :(" << std::endl; exit(1);}
+    std::ifstream bmpfile(fileName, std::ios::binary);
+    
+    if (not(bmpfile)) {std::cerr<<"Упс... Входной файл не получилось открыть :("<<std::endl; exit(1);}
 
     bmpfile.read(reinterpret_cast<char*>(&header), sizeof(header));
 
     int width = header.width; int height = header.height;
+    
     int sizeLine = (width * header.bitsPerPix+31)/8;
 
     pix.resize(sizeLine * height);
 
     bmpfile.read(reinterpret_cast<char*>(pix.data()), pix.size());
+    
     bmpfile.close();
 }
 
@@ -93,14 +98,16 @@ void bmpread(const std::string& filename, std::vector<unsigned char>& pix, bmpda
 -> Функция ниже открывает файл для записи в двоичном режиме и записывает в него заголовок BMPHeader и массив пикселей.
 -> Если файл не удается открыть, выводится сообщение об ошибке.
 */
-void bmpwrite(const std::string& filename,  const std::vector<unsigned char>& pix, const bmpdata& header)
+void bmpwrite(const std::string& fileName,  const std::vector<unsigned char>& pix, const bmpdata& header)
 {
-    std::ofstream bmpfileOut(filename, std::ios::binary);
-    if (not(bmpfileOut)) {std::cerr << "Упс... Выходной файл не получилось открыть :(" << std::endl; exit(1);}
+    std::ofstream bmpfileOut(fileName, std::ios::binary);
+    
+    if (not(bmpfileOut)) {std::cerr<<"Упс... Выходной файл не получилось открыть :("<<std::endl; exit(1);}
 
     bmpfileOut.write(reinterpret_cast<const char*>(&header), sizeof(header));
 
     bmpfileOut.write(reinterpret_cast<const char*>(pix.data()), pix.size());
+    
     bmpfileOut.close();
 }
 
@@ -170,7 +177,7 @@ void filterOfGauss(std::vector<unsigned char>& pix, int width, int height)
     {
         for (int x = radius; x < width - radius; x++)
         {
-            double red = 0; double green = 0; double sumB = 0;
+            double red = 0; double green = 0; double blue = 0;
             filterToPixel(pix, width, height, core, radius, x, y, filtpix);
         }
     }
@@ -186,37 +193,40 @@ void filterOfGauss(std::vector<unsigned char>& pix, int width, int height)
 int main()
 {   
     bmpdata header;
-    std::vector<unsigned char> pix;
+    
+    std::vector<unsigned char>pix;
     
     
     
     // Для поворота по часовой стрелке.
+    
     bmpread("image.bmp", pix, header);
     
     rotateImageRight(pix, header.width, header.height);
     header.fileSize = sizeof(header) + pix.size();
     
     bmpwrite("right.bmp", pix, header);
-    std::cout << "Файл image.bmp повернут на 90 градусов вправо и загружен в файл right.bmp!" << std::endl;
+    std::cout<<"Файл image.bmp повернут на 90 градусов вправо и загружен в файл right.bmp!"<<std::endl;
     
     filterOfGauss(pix, header.width, header.height);
     bmpwrite("rightGauss.bmp", pix, header);
-    std::cout << "Фильтр Гаусса применен!" << std::endl;
+    std::cout<<"Фильтр Гаусса применен!"<<std::endl;
     
     
     
     // Для поворота против часовой стрелки.
+    
     bmpread("image.bmp", pix, header); 
  
     rotateImageLeft(pix, header.width, header.height);
     header.fileSize = sizeof(header) + pix.size();
     
     bmpwrite("left.bmp", pix, header);  
-    std::cout << "Файл image.bmp повернут на 90 градусов влево и загружен в файл left.bmp!" << std::endl;
+    std::cout<<"Файл image.bmp повернут на 90 градусов влево и загружен в файл left.bmp!"<<std::endl;
     
     filterOfGauss(pix, header.width, header.height);
     bmpwrite("leftGauss.bmp", pix, header);
-    std::cout << "Фильтр Гаусса применен!" << std::endl;
+    std::cout<<"Фильтр Гаусса применен!"<<std::endl;
     
     
     
