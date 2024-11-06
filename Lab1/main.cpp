@@ -95,7 +95,7 @@ void bmpread(const std::string& fileName, std::vector<unsigned char>& pix, bmpda
 
 
 /*
--> Функция ниже открывает файл для записи в двоичном режиме и записывает в него заголовок BMPHeader и массив пикселей.
+-> Функция ниже открывает файл для записи в двоичном режиме и записывает в него заголовок и массив пикселей.
 -> Если файл не удается открыть, выводится сообщение об ошибке.
 */
 void bmpwrite(const std::string& fileName,  const std::vector<unsigned char>& pix, const bmpdata& header)
@@ -198,7 +198,7 @@ int main()
     
     
     
-    // Для поворота по часовой стрелке.
+    // Для поворота по часовой стрелке + фильтр Гаусса.
     
     bmpread("image.bmp", pix, header);
     
@@ -214,7 +214,7 @@ int main()
     
     
     
-    // Для поворота против часовой стрелки.
+    // Для поворота против часовой стрелки + фильтр Гаусса.
     
     bmpread("image.bmp", pix, header); 
  
