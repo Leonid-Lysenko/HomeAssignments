@@ -48,7 +48,7 @@ struct bmpdata
 */
 void filterToPixel(const std::vector<unsigned char>& pix, int width, int height, const double core[5][5], int radius, int x, int y, std::vector<unsigned char>& filtpix)
 {
-    double red = 0; double green = 0; double blue = 0; int offset = (x + y * width)*3;
+    double red = 0; double green = 0; double blue = 0; int offset = (x + (y * width))*3;
     for (int i = -(radius); i <= radius; i++)
     {
         for (int j = -(radius); j <= radius; j++)
@@ -166,7 +166,7 @@ void rotateImageLeft(std::vector<unsigned char>& pix, int& width, int& height)
 -> Функция ниже применяет фильтр Гаусса к изображению.
 -> Объявлен фильтр (ядро) размером 5x5, который используется для размытия изображения.
 -> Фильтр применяется к каждому пикселю, кроме краевых (во избежание потенциальных проблем с точностью и качеством обработки изображения), с помощью функции filterToPixel.
--> После обработки filtpix копируются обратно в pixels.
+-> После обработки filtpix копируются обратно в pix.
 */
 void filterOfGauss(std::vector<unsigned char>& pix, int width, int height)
 {
@@ -175,7 +175,7 @@ void filterOfGauss(std::vector<unsigned char>& pix, int width, int height)
     std::vector<unsigned char>filtpix(pix.size());
     for (int y = radius; y < height - radius; y++)
     {
-        for (int x = radius; x < width - radius; x++)
+        for (int x = radius; x < (width - radius); x++)
         {
             double red = 0; double green = 0; double blue = 0;
             filterToPixel(pix, width, height, core, radius, x, y, filtpix);
