@@ -40,107 +40,199 @@ TEST(TransformerTest, methods)
     EXPECT_EQ(transformer.getAmmo(), 249);
 }
 
-TEST(AutobotTest, fieldVoice)
+TEST(TransformerTest, method1)
 {
     auto gun = std::make_unique<Guns>(10);
-    Guns robogun(500);
+    Transformer transformer("Unknown", 100, 80, 500, 250, gun.release());
+    
+    transformer.fight();
+    EXPECT_EQ(transformer.getCharge(), 499);
+    
+    transformer.fight();
+    EXPECT_EQ(transformer.getCharge(), 498);
+    
+    transformer.fight();
+    EXPECT_EQ(transformer.getCharge(), 497);
+}
+
+TEST(TransformerTest, method2)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Transformer transformer("Unknown", 100, 80, 500, 250, gun.release());
+    
+    transformer.shoot();	
+    EXPECT_EQ(transformer.getAmmo(), 249);
+    
+    transformer.shoot();	
+    EXPECT_EQ(transformer.getAmmo(), 248);
+    
+    transformer.shoot();	
+    EXPECT_EQ(transformer.getAmmo(), 247);
+}
+
+TEST(AutobotTest, method1)
+{
+    auto gun = std::make_unique<Guns>(10);
     Autobot autobot("Bumblebee", 200, 100, 500, 250, gun.release(), "ZUZUZU");
     
     std::ostringstream output;
     std::streambuf* pastbuf = std::cout.rdbuf(output.rdbuf());
-    
     autobot.move();
     std::cout.rdbuf(pastbuf);
-    
     EXPECT_EQ(output.str(), "The autobot started moving\n");
-    output.str("");
+}
+
+TEST(AutobotTest, method2)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Autobot autobot("Bumblebee", 200, 100, 500, 250, gun.release(), "ZUZUZU");
     
-    std::cout.rdbuf(output.rdbuf());
-    
+    std::ostringstream output;
+    std::streambuf* pastbuf = std::cout.rdbuf(output.rdbuf());
     autobot.transform();
     std::cout.rdbuf(pastbuf);
-    
     EXPECT_EQ(output.str(), "The autobot has taken on a new form\n");
-    output.str("");
+}
+
+TEST(AutobotTest, method3)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Autobot autobot("Bumblebee", 200, 100, 500, 250, gun.release(), "ZUZUZU");
     
-    std::cout.rdbuf(output.rdbuf());
-    
+    std::ostringstream output;
+    std::streambuf* pastbuf = std::cout.rdbuf(output.rdbuf());
     autobot.voice();
     std::cout.rdbuf(pastbuf);
-    
     EXPECT_EQ(output.str(), "The autobot shouted: ZUZUZU\n");
-    output.str("");
+}
+
+TEST(AutobotTest, output1)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Autobot autobot("Bumblebee", 200, 100, 500, 250, gun.release(), "ZUZUZU");
     
+    std::ostringstream output;
     output << autobot;
     EXPECT_NE(output.str().find("War cry: ZUZUZU"), std::string::npos);
 }
 
-TEST(DecepticonTest, fieldAttack)
+TEST(DecepticonTest, method1)
 {
     auto gun = std::make_unique<Guns>(10);
     Decepticon decepticon("Megatron", 300, 500, 1000, 800, gun.release(), 50);
-    EXPECT_EQ(decepticon.getAttack(), 50);
     
     decepticon.setAttack(100);
     EXPECT_EQ(decepticon.getAttack(), 100);
+}
+
+TEST(DecepticonTest, method2)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Decepticon decepticon("Megatron", 300, 500, 1000, 800, gun.release(), 50);
+    
+    EXPECT_EQ(decepticon.getAttack(), 50);
+}
+
+TEST(DecepticonTest, method3)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Decepticon decepticon("Megatron", 300, 500, 1000, 800, gun.release(), 50);
     
     std::ostringstream output;
     std::streambuf* pastbuf = std::cout.rdbuf(output.rdbuf());
-    
     decepticon.move();
     std::cout.rdbuf(pastbuf);
-    
     EXPECT_EQ(output.str(), "The decepticon started moving\n");
-    output.str("");
+}
+
+TEST(DecepticonTest, method4)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Decepticon decepticon("Megatron", 300, 500, 1000, 800, gun.release(), 50);
     
-    std::cout.rdbuf(output.rdbuf());
-    
+    std::ostringstream output;
+    std::streambuf* pastbuf = std::cout.rdbuf(output.rdbuf());
     decepticon.transform();
     std::cout.rdbuf(pastbuf);
-    
     EXPECT_EQ(output.str(), "The decepticon has taken on a new form\n");
-    output.str("");
+}
+
+TEST(DecepticonTest, method5)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Decepticon decepticon("Megatron", 300, 500, 1000, 800, gun.release(), 50);
     
-    std::cout.rdbuf(output.rdbuf());
-    
+    std::ostringstream output;
+    std::streambuf* pastbuf = std::cout.rdbuf(output.rdbuf());
     decepticon.scary();
     std::cout.rdbuf(pastbuf);
-    
     EXPECT_EQ(output.str(), "The decepticon started to scare\n");
-    output.str("");
+}
+
+TEST(DecepticonTest, output1)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Decepticon decepticon("Megatron", 300, 500, 1000, 800, gun.release(), 50);
     
+    decepticon.setAttack(100);
+    std::ostringstream output;
     output<<decepticon;
     EXPECT_NE(output.str().find("Power of attack: 100"), std::string::npos);
 }
 
-TEST(NeutralTest, fieldProtection)
+TEST(NeutralTest, method1)
 {
     auto gun = std::make_unique<Guns>(10);
     Neutral neutral("Seeker", 30, 50, 40, 10, gun.release(), 50);
-    EXPECT_EQ(neutral.getProtection(), 50);
     
     neutral.setProtection(80);
     EXPECT_EQ(neutral.getProtection(), 80);
+}
+
+TEST(NeutralTest, method2)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Neutral neutral("Seeker", 30, 50, 40, 10, gun.release(), 50);
+    
+    EXPECT_EQ(neutral.getProtection(), 50);
+}
+
+TEST(NeutralTest, method3)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Neutral neutral("Seeker", 30, 50, 40, 10, gun.release(), 50);
     
     std::ostringstream output;
     std::streambuf* pastbuf = std::cout.rdbuf(output.rdbuf());
-    
     neutral.move();
     std::cout.rdbuf(pastbuf);
-    
     EXPECT_EQ(output.str(), "The neutral started moving\n");
-    output.str("");
     
-    std::cout.rdbuf(output.rdbuf());
+}
+
+TEST(NeutralTest, method4)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Neutral neutral("Seeker", 30, 50, 40, 10, gun.release(), 50);
     
+    std::ostringstream output;
+    std::streambuf* pastbuf = std::cout.rdbuf(output.rdbuf());
     neutral.transform();
     std::cout.rdbuf(pastbuf);
-    
     EXPECT_EQ(output.str(), "The neutral has taken on a new form\n");
-    output.str("");
     
+}
+
+TEST(NeutralTest, method5)
+{
+    auto gun = std::make_unique<Guns>(10);
+    Neutral neutral("Seeker", 30, 50, 40, 10, gun.release(), 50);
+    
+    neutral.setProtection(80);
+    std::ostringstream output;
     output<<neutral;
     EXPECT_NE(output.str().find("Protection: 80"), std::string::npos);
+    
 }
 
 int main(int argc, char **argv)

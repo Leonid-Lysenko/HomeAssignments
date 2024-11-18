@@ -52,7 +52,6 @@ class NuclearCharge
 	    return charge == matching.charge;
 	}
    
-    
     private:
         int charge;
 };
