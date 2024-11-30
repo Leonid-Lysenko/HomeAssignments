@@ -7,10 +7,10 @@
 #include "transformer.hpp"
 
 Transformer::Transformer(const std::string& name, int speed, int power, int energy, int ammo, Guns* gun):
-    roboname(name), 
-    robospeed(speed), 
+    roboname(name),
+    robospeed(speed),
     robopower(power),
-    roboammo(ammo), 
+    roboammo(ammo),
     robogun(gun),
     nuclearCharge(energy) {}
 

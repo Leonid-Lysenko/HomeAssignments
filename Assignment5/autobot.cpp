@@ -13,7 +13,7 @@ Autobot::Autobot(const std::string& name, int speed, int power, int energy, int 
 
 void Autobot::move()
 {
-    std::cout<<"The autobot started moving!"<<'\n';  
+    std::cout<<"The autobot started moving!"<<'\n';
 }
 
 void Autobot::transform()

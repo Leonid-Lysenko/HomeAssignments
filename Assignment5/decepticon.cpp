@@ -24,7 +24,7 @@ void Decepticon::setAttack(int attack)
 void Decepticon::move()
 {
     std::cout<<"The decepticon started moving!"<<'\n';
-    
+
 }
 
 void Decepticon::transform()
